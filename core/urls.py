@@ -15,8 +15,22 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from ninja_extra import NinjaExtraAPI
+
+from app.api.router import api_router
+
+api = NinjaExtraAPI(
+    title="DB Toolkit",
+    description="Clothing Brand Platform",
+    version="1",
+)
+api.add_router("", api_router)
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    # django partner
+    path("ckeditor5/", include('django_ckeditor_5.urls')),
+
+    path("api/", api.urls),
+    path("", admin.site.urls),
 ]
